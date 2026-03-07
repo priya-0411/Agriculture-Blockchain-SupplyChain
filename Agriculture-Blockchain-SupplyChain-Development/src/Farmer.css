@@ -1,0 +1,246 @@
+/* ===============================
+   Farmer Dashboard Page
+================================= */
+
+.farmer-dashboard{
+  min-height:100vh;
+  background:linear-gradient(to right,#e8f5e9,#f1f8e9);
+  padding:30px;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Header container */
+
+.dashboard-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:white;
+  padding:15px 30px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Farmer image */
+
+.farmer-img{
+  width:300px;
+  height:200px;
+  object-fit:cover;
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Dashboard heading */
+
+.dashboard-title{
+  flex:1;
+  text-align:center;
+  font-size:50px;
+  font-weight:bold;
+  color:#2e7d32;
+}
+
+/* Add product button */
+
+.add-product-btn{
+  padding:12px 25px;
+  background:#2e7d32;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.add-product-btn:hover{
+  background:#1b5e20;
+  transform:scale(1.05);
+}
+
+
+/* ===============================
+   Add Product Page
+================================= */
+
+.product-page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#f4f6f8;
+}
+
+/* Form card */
+
+.product-card{
+  width:420px;
+  background:white;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Title */
+
+.product-card h2{
+  text-align:center;
+  margin-bottom:20px;
+  color:#2e7d32;
+}
+
+/* Form layout */
+
+.product-form{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+/* Inputs */
+
+.product-form input,
+.product-form select{
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+  outline:none;
+}
+
+/* Focus effect */
+
+.product-form input:focus,
+.product-form select:focus{
+  border-color:#2e7d32;
+}
+
+/* Label */
+
+.product-form label{
+  font-size:14px;
+  font-weight:bold;
+}
+
+/* Buttons */
+
+.product-form button{
+  padding:10px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+/* Location button */
+
+.product-form button[type="button"]{
+  background:#607d8b;
+  color:white;
+}
+
+/* Submit button */
+
+.submit-btn{
+  background:#2e7d32;
+  color:white;
+  font-weight:bold;
+}
+
+.submit-btn:hover{
+  background:#1b5e20;
+}
+
+
+/* ===============================
+   Product Cards
+================================= */
+
+.product-heading{
+  margin-top:40px;
+  color:#2e7d32;
+  text-align:center;
+}
+
+/* Grid layout */
+
+.product-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+  margin-top:30px;
+}
+
+/* Product card */
+
+.product-card-dashboard{
+  background:white;
+  padding:50px;
+  border-radius:50px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.15);
+  transition:0.3s;
+  width:260px;
+}
+
+/* Hover */
+
+.product-card-dashboard:hover{
+  transform:scale(1.05);
+  box-shadow:0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* Crop name */
+
+.product-card-dashboard h3{
+  text-align:center;
+  color:#2e7d32;
+  margin-bottom:10px;
+}
+
+/* Product details */
+
+.product-details{
+  margin-top:10px;
+}
+
+/* Row layout */
+
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  margin:5px 0;
+  font-size:14px;
+}
+
+/* Label */
+
+.label{
+  font-weight:bold;
+  color:#333;
+}
+
+/* Value */
+
+.value{
+  color:#555;
+  text-align:right;
+  word-break:break-word;
+}
+
+/* Price */
+
+.price{
+  text-align:center;
+  margin-top:10px;
+  font-weight:bold;
+  color:#1b5e20;
+  font-size:16px;
+}
+
+/* Error */
+
+.error{
+  color:red;
+  font-size:14px;
+}
