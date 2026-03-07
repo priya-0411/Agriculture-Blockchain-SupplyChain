@@ -61,8 +61,8 @@ function Register() {
         />
 
         <input
-          type="email"
-          placeholder="Email"
+          type="tel"
+          placeholder="Mobile Number"
         />
 
         <input

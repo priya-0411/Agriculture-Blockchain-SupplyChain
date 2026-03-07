@@ -4,6 +4,11 @@ import { Routes, Route, Link } from "react-router-dom";
 
 import Login from "./Login";
 import Register from "./Register";
+//import FarmerDashboard from "./FarmerDashboard";
+import AddProduct from "./AddProduct";
+import FarmerDashboard from "./FarmerDashboard";
+//import DistributorDashboard from "./DistributorDashboard";
+//import RetailerDashboard from "./RetailerDashboard";
 
 import "./App.css";
 
@@ -112,6 +117,40 @@ function App() {
 
             </section>
 
+
+            {/* ABOUT SECTION */}
+            <section id="about" className="about">
+
+              <div className="about-container">
+
+                <h2>About AgriChain</h2>
+
+                <p>
+                  AgriChain is a digital platform designed to bring transparency
+                  and trust into the agricultural supply chain. Farmers often sell
+                  their produce at low prices without knowing the final retail
+                  price in the market.
+                </p>
+
+                <p>
+                  Our system allows farmers, distributors, retailers and consumers
+                  to track agricultural products from the farm to the final
+                  consumer using modern technologies like blockchain and QR
+                  verification.
+                </p>
+
+                <p>
+                  By making every transaction visible in the supply chain,
+                  AgriChain helps reduce exploitation, ensures fair pricing,
+                  improves trust between stakeholders, and promotes a more
+                  efficient agricultural ecosystem.
+                </p>
+
+              </div>
+
+            </section>
+
+
             {/* Features */}
             <section id="features" className="features">
 
@@ -150,8 +189,10 @@ function App() {
         } />
 
         <Route path="/login" element={<Login />} />
-
         <Route path="/register" element={<Register />} />
+        <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
+
+        <Route path="/add-product" element={<AddProduct />} />
 
       </Routes>
 

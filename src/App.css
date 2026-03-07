@@ -170,3 +170,24 @@
   text-align:center;
   color:#aaa;
 }
+.about{
+  padding:80px 50px;
+  background:white;
+  text-align:center;
+}
+
+.about-container{
+  max-width:900px;
+  margin:auto;
+}
+
+.about h2{
+  font-size:36px;
+  margin-bottom:20px;
+}
+
+.about p{
+  margin-bottom:15px;
+  color:#555;
+  line-height:1.6;
+}

@@ -1,0 +1,40 @@
+.farmer-dashboard{
+  padding:80px;
+  text-align:center;
+}
+
+.add-product-btn{
+  padding:12px 25px;
+  background:#2e7d32;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.product-form-container{
+  width:400px;
+  margin:80px auto;
+}
+
+.product-form{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.product-form input,
+.product-form select{
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:5px;
+}
+
+.submit-btn{
+  background:#2e7d32;
+  color:white;
+  padding:10px;
+  border:none;
+  border-radius:6px;
+}
