@@ -1,35 +1,35 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Auth.css";
 
 function Login() {
 
   const navigate = useNavigate();
 
-  const [mobile, setMobile] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [mobile,setMobile] = useState("");
+  const [password,setPassword] = useState("");
+  const [role,setRole] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e)=>{
 
     e.preventDefault();
 
-    if(role === "farmer"){
+    if(role==="farmer"){
       navigate("/farmer-dashboard");
     }
-    else if(role === "distributor"){
+    else if(role==="distributor"){
       navigate("/distributor-dashboard");
     }
-    else if(role === "retailer"){
+    else if(role==="retailer"){
       navigate("/retailer-dashboard");
     }
     else{
-      alert("Please select a role");
+      alert("Please select role");
     }
 
   };
 
-  return (
+  return(
 
     <div className="auth-container">
 
@@ -64,11 +64,15 @@ function Login() {
           <option value="retailer">Retailer</option>
         </select>
 
-        <button type="submit">
-          Login
-        </button>
+        <button type="submit">Login</button>
 
       </form>
+
+      {/* REGISTER MESSAGE */}
+
+      <p className="auth-link">
+        New user? <Link to="/register">Register</Link>
+      </p>
 
     </div>
 

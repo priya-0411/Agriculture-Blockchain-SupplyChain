@@ -62,3 +62,13 @@
 .auth-form button:hover{
   background:#256628;
 }
+.auth-link{
+  margin-top:15px;
+  text-align:center;
+}
+
+.auth-link a{
+  color:#2e7d32;
+  font-weight:600;
+  text-decoration:none;
+}

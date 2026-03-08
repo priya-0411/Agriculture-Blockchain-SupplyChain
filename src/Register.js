@@ -1,54 +1,10 @@
-/*import "./Auth.css";
-
-function Register() {
-
-  return (
-    <div className="auth-container">
-
-      <h2>Register</h2>
-
-      <form className="auth-form">
-
-        <input
-          type="text"
-          placeholder="Full Name"
-        />
-
-        <input
-          type="email"
-          placeholder="Email"
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-        />
-
-        <select>
-          <option>Select Role</option>
-          <option>Farmer</option>
-          <option>Distributor</option>
-          <option>Retailer</option>
-        </select>
-
-        <button type="submit">
-          Register
-        </button>
-
-      </form>
-
-    </div>
-  );
-}
-
-export default Register;
-*/
-
+import { Link } from "react-router-dom";
 import "./Auth.css";
 
-function Register() {
+function Register(){
 
-  return (
+  return(
+
     <div className="auth-container">
 
       <h2>Register</h2>
@@ -58,23 +14,28 @@ function Register() {
         <input
           type="text"
           placeholder="Full Name"
+          required
         />
 
         <input
           type="tel"
           placeholder="Mobile Number"
+          required
         />
 
         <input
           type="password"
           placeholder="Password"
+          required
         />
 
-        <select>
-          <option>Select Role</option>
+        <select required>
+
+          <option value="">Select Role</option>
           <option>Farmer</option>
           <option>Distributor</option>
           <option>Retailer</option>
+
         </select>
 
         <button type="submit">
@@ -83,7 +44,14 @@ function Register() {
 
       </form>
 
+      {/* LOGIN MESSAGE */}
+
+      <p className="auth-link">
+        Already registered? <Link to="/login">Login</Link>
+      </p>
+
     </div>
+
   );
 }
 
