@@ -1,53 +1,45 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-// Register Route
-router.post('/register', async (req, res) => {
+// Register
+router.post("/register", async (req, res) => {
   try {
     const { fullName, mobile, password, role } = req.body;
 
-    // Validate input
-    if (!fullName || !mobile || !password || !role) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Please provide all required fields' 
-      });
+    if (!fullName || !mobile || !password) {
+      return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ mobile });
-    if (existingUser) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Mobile number already registered' 
-      });
+    const finalRole = role || "farmer";
+
+    const userExists = await User.findOne({ mobile });
+    if (userExists) {
+      return res.status(400).json({ success: false, message: "Mobile number already registered" });
     }
 
-    // Create new user
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = new User({
       fullName,
       mobile,
-      password,
-      role: role.toLowerCase()
+      password: hashedPassword,
+      role: finalRole
     });
 
     await user.save();
 
-    // Generate JWT token
     const token = jwt.sign(
-      { 
-        userId: user._id, 
-        role: user.role 
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET || "fallback-secret-change-in-production",
+      { expiresIn: "1d" }
     );
 
-    res.status(201).json({
+    res.json({
       success: true,
-      message: 'User registered successfully',
+      message: "Registration successful",
       token,
       user: {
         id: user._id,
@@ -58,67 +50,38 @@ router.post('/register', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Error registering user',
-      error: error.message 
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
-// Login Route
-router.post('/login', async (req, res) => {
+// Login
+router.post("/login", async (req, res) => {
   try {
-    const { mobile, password, role } = req.body;
+    const { mobile, password } = req.body;
 
-    // Validate input
-    if (!mobile || !password || !role) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Please provide mobile number, password, and role' 
-      });
+    if (!mobile || !password) {
+      return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
-    // Find user by mobile
     const user = await User.findOne({ mobile });
     if (!user) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Invalid credentials' 
-      });
+      return res.status(400).json({ success: false, message: "Invalid mobile or password" });
     }
 
-    // Check if role matches
-    if (user.role !== role.toLowerCase()) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Invalid role for this account' 
-      });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, message: "Invalid mobile or password" });
     }
 
-    // Verify password
-    const isPasswordValid = await user.comparePassword(password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Invalid credentials' 
-      });
-    }
-
-    // Generate JWT token
     const token = jwt.sign(
-      { 
-        userId: user._id, 
-        role: user.role 
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET || "fallback-secret-change-in-production",
+      { expiresIn: "1d" }
     );
 
-    res.status(200).json({
+    res.json({
       success: true,
-      message: 'Login successful',
+      message: "Login successful",
       token,
       user: {
         id: user._id,
@@ -129,47 +92,7 @@ router.post('/login', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Error logging in',
-      error: error.message 
-    });
-  }
-});
-
-// Get current user (protected route)
-router.get('/me', async (req, res) => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    
-    if (!token) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'No token provided' 
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.userId).select('-password');
-
-    if (!user) {
-      return res.status(404).json({ 
-        success: false, 
-        message: 'User not found' 
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      user
-    });
-
-  } catch (error) {
-    res.status(401).json({ 
-      success: false, 
-      message: 'Invalid token' 
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 

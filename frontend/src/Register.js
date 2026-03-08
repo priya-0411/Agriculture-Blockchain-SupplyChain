@@ -1,121 +1,58 @@
-/*import "./Auth.css";
-
-function Register() {
-
-  return (
-    <div className="auth-container">
-
-      <h2>Register</h2>
-
-      <form className="auth-form">
-
-        <input
-          type="text"
-          placeholder="Full Name"
-        />
-
-        <input
-          type="email"
-          placeholder="Email"
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-        />
-
-        <select>
-          <option>Select Role</option>
-          <option>Farmer</option>
-          <option>Distributor</option>
-          <option>Retailer</option>
-        </select>
-
-        <button type="submit">
-          Register
-        </button>
-
-      </form>
-
-    </div>
-  );
-}
-
-export default Register;
-*/
-
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 import "./Auth.css";
 
 function Register() {
   const navigate = useNavigate();
 
-  const [fullName, setFullName] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [form, setForm] = useState({
+    fullName: "",
+    mobile: "",
+    password: "",
+    role: "farmer"
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError("");
 
-    if (!role) {
-      setError("Please select a role");
-      return;
-    }
-
-    if (mobile.length !== 10) {
-      setError("Please enter a valid 10-digit mobile number");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters");
-      return;
-    }
-
-    setLoading(true);
-
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullName,
-          mobile,
-          password,
-          role,
-        }),
-      });
+      const res = await axios.post("http://localhost:5000/api/auth/register", form);
 
-      const data = await response.json();
-
-      if (data.success) {
-        // Store token and user data
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        
-        alert("Registration successful!");
-        
-        // Navigate based on role
-        if (role === "farmer") {
-          navigate("/farmer-dashboard");
-        } else if (role === "distributor") {
-          navigate("/distributor-dashboard");
-        } else if (role === "retailer") {
-          navigate("/retailer-dashboard");
-        }
-      } else {
-        setError(data.message || "Registration failed");
+      if (!res.data?.success) {
+        setError(res.data?.message || "Registration failed");
+        return;
       }
-    } catch (error) {
-      console.error("Registration error:", error);
-      setError("Failed to connect to server. Please try again.");
+
+      const registeredUser = res.data.user || {};
+      const role = registeredUser.role || form.role;
+
+      // Save token & user info
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+      }
+      localStorage.setItem("user", JSON.stringify(registeredUser));
+
+      // Redirect based on role
+      if (role === "farmer") navigate("/farmer-dashboard");
+      else if (role === "distributor") navigate("/distributor-dashboard");
+      else if (role === "retailer") navigate("/retailer-dashboard");
+      else navigate("/login");
+
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -124,42 +61,35 @@ function Register() {
   return (
     <div className="auth-container">
       <h2>Register</h2>
-
-      {error && <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
-
+      {error && <p className="error-msg">{error}</p>}
       <form className="auth-form" onSubmit={handleSubmit}>
+
         <input
-          type="text"
+          name="fullName"
           placeholder="Full Name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
+          value={form.fullName}
+          onChange={handleChange}
           required
         />
 
         <input
-          type="tel"
-          placeholder="Mobile Number (10 digits)"
-          value={mobile}
-          onChange={(e) => setMobile(e.target.value)}
-          maxLength="10"
-          pattern="[0-9]{10}"
+          name="mobile"
+          placeholder="Mobile Number"
+          value={form.mobile}
+          onChange={handleChange}
           required
         />
 
         <input
           type="password"
-          placeholder="Password (min 6 characters)"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          minLength="6"
+          name="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
           required
         />
 
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          required
-        >
+        <select name="role" value={form.role} onChange={handleChange} required>
           <option value="">Select Role</option>
           <option value="farmer">Farmer</option>
           <option value="distributor">Distributor</option>
@@ -169,16 +99,11 @@ function Register() {
         <button type="submit" disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
+
       </form>
 
-      <p style={{ marginTop: "15px", textAlign: "center" }}>
-        Already have an account?{" "}
-        <span
-          onClick={() => navigate("/login")}
-          style={{ color: "#4CAF50", cursor: "pointer", textDecoration: "underline" }}
-        >
-          Login here
-        </span>
+      <p className="auth-link">
+        Already registered? <Link to="/login">Login</Link>
       </p>
     </div>
   );

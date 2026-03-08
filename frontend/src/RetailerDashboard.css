@@ -1,0 +1,62 @@
+.retailer-container {
+  padding: 40px;
+  font-family: Arial;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.retailer-container h1 {
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+.retailer-container .section {
+  background: white;
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.retailer-container .section h2 {
+  margin-bottom: 20px;
+  color: #1565c0;
+}
+
+.retailer-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.retailer-container th {
+  background: #1565c0;
+  color: white;
+  padding: 12px;
+}
+
+.retailer-container td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.retailer-container button {
+  background: #1565c0;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.retailer-container button:hover {
+  background: #0d47a1;
+}
+
+.retailer-container .logout-btn {
+  background: #c62828;
+}
+
+.retailer-container .logout-btn:hover {
+  background: #b71c1c;
+}
