@@ -1,0 +1,9 @@
+{
+  "short_name": "AgriChain",
+  "name": "Agriculture Blockchain Supply Chain",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#2e7d32",
+  "background_color": "#ffffff"
+}
